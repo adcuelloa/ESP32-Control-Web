@@ -1,0 +1,55 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    name: Build & Deploy to Server (build on server)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: Trigger Deploy on Server (install, build, prune, restart)
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -euo pipefail
+            echo "🚀 Iniciando despliegue en servidor..."
+            APP_ROOT=/var/www/arduino
+
+            echo "📥 Entrando en app root: $APP_ROOT"
+            cd "$APP_ROOT"
+
+            echo "📥 Actualizando código desde main..."
+            git pull origin main || true
+
+            echo "📦 Instalando dependencias (incluye devDependencies)..."
+            pnpm install --frozen-lockfile
+
+            echo "🔨 Construyendo frontend en servidor..."
+            pnpm build
+
+            echo "✅ Despliegue completado."
+            echo "📊 Estado de los servicios:"
+            pm2 list || true
