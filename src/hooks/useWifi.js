@@ -34,10 +34,24 @@ export function useWifi() {
   const MAX_SPEED = 9;
   const MIN_SPEED = 0;
 
-  // 🔧 CONFIGURACIÓN: Cambia esta IP según tu modo WiFi
-  // - Modo AP (Access Point): ws://192.168.4.1/ws
-  // - Modo Station: ws://<IP_DE_TU_ROUTER>/ws (ejemplo: ws://192.168.1.100/ws)
-  const WEBSOCKET_URL = 'ws://192.168.4.1/ws';
+  // 🔧 CONFIGURACIÓN: Detección automática de protocolo y URL
+  // En desarrollo (localhost): usa ws://
+  // En producción (HTTPS): usa wss:// automáticamente
+  const getWebSocketURL = () => {
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const hostname = window.location.hostname;
+    
+    // Si estamos en localhost/desarrollo, usar la IP del ESP32
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      return 'ws://192.168.4.1/ws';
+    }
+    
+    // En producción, construir URL con el mismo host
+    // Asumiendo que el ESP32 está accesible en el mismo dominio/IP
+    return `${protocol}//${hostname}/ws`;
+  };
+
+  const WEBSOCKET_URL = getWebSocketURL();
 
   const ACK_TIMEOUT = 1000; // Aumentado a 1000ms para WiFi (vs 500ms en BLE)
   const MAX_RETRIES = 2;

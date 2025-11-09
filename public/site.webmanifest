@@ -1,6 +1,6 @@
 {
   "name": "ESP32 Web Controller",
-  "short_name": "ESP32 Web Controller",
+  "short_name": "ESP32 Controller",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -15,7 +15,10 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  "theme_color": "#1a1a1a",
+  "background_color": "#1a1a1a",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "start_url": "/",
+  "scope": "/"
 }

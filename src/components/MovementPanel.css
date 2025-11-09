@@ -1,37 +1,45 @@
-/* ===== MOVEMENT PANEL (D-PAD físico) ===== */
+/* ===== MOVEMENT PANEL (Control de movimiento) ===== */
 .movement-panel {
   background: radial-gradient(circle at 30% 30%, #2a2a2a, #1a1a1a);
-  border-radius: clamp(1rem, 2vw, 1.5rem);
-  padding: clamp(1rem, 2vw, 1.5rem);
+  border-radius: clamp(0.75rem, 1.5dvmin, 1.5rem);
+  padding: clamp(0.75rem, 1.5dvmin, 1.5rem);
   box-shadow:
     0 8px 20px rgba(0, 0, 0, 0.7),
     inset 0 3px 8px rgba(255, 255, 255, 0.03),
     inset 0 -3px 10px rgba(0, 0, 0, 0.6);
-  border: 3px solid rgba(255, 255, 255, 0.05);
+  border: clamp(2px, 0.3dvmin, 3px) solid rgba(255, 255, 255, 0.05);
+  /* Ocupar todo el espacio disponible del grid */
+  width: 100%;
   height: 100%;
+  min-height: 0;
+  /* Layout interno: header arriba, grid centrado */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: clamp(0.75rem, 1.5vw, 1.25rem);
-  position: relative;
+  gap: clamp(0.5rem, 1.5dvmin, 1.25rem);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .movement-header {
   display: flex;
   align-items: center;
-  gap: clamp(0.4rem, 0.8vw, 0.6rem);
+  gap: clamp(0.3rem, 0.8dvmin, 0.6rem);
   opacity: 0.7;
+  flex-shrink: 0;
+  width: 100%;
+  justify-content: center;
 }
 
 .movement-icon {
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(0.875rem, 2dvmin, 1.5rem);
   color: #00b4d8;
   filter: drop-shadow(0 0 6px rgba(0, 180, 216, 0.6));
 }
 
 .movement-label {
-  font-size: clamp(0.625rem, 1.2vw, 0.75rem);
+  font-size: clamp(0.5rem, 1.5dvmin, 0.875rem);
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -44,10 +52,14 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  gap: clamp(0.4rem, 0.8vw, 0.6rem);
-  width: 100%;
-  max-width: clamp(220px, 20vw, 320px);
-  aspect-ratio: 1;
+  gap: clamp(0.3rem, 0.8dvmin, 0.6rem);
+  /* Mantener aspecto cuadrado siempre */
+  aspect-ratio: 1 / 1;
+  /* Crecer proporcionalmente con el contenedor, respetando el aspect ratio */
+  height: min(90%, 55dvmin);
+  width: auto;
+  /* Centrado y responsivo */
+  place-self: center;
 }
 
 /* Botones direccionales */
@@ -56,10 +68,17 @@
 .btn-s,
 .btn-d {
   background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
-  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-size: clamp(1rem, 3dvmin, 2rem);
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Centrar y limitar al tamaño de la celda */
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  place-self: center;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 /* Posiciones del D-Pad */
@@ -88,14 +107,21 @@
   grid-column: 2;
   grid-row: 2;
   background: linear-gradient(135deg, #e63946 0%, #c92a35 100%);
-  font-size: clamp(0.875rem, 1.75vw, 1.125rem);
+  font-size: clamp(0.75rem, 2dvmin, 1.25rem);
   font-weight: 900;
   letter-spacing: 0.05em;
   box-shadow:
     0 6px 16px rgba(230, 57, 70, 0.6),
     inset 0 1px 4px rgba(255, 255, 255, 0.2),
     inset 0 -2px 5px rgba(0, 0, 0, 0.4);
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  border: clamp(1px, 0.2dvmin, 2px) solid rgba(255, 255, 255, 0.15);
+  /* Centrar y limitar al tamaño de la celda */
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  place-self: center;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .btn-stop:hover:not(:disabled) {
@@ -154,6 +180,16 @@
 /* Responsive */
 @media (max-aspect-ratio: 1/1) {
   .movement-grid {
-    max-width: clamp(220px, 45vw, 280px);
+    height: min(70%, 35dvmin);
+  }
+}
+
+@media (max-height: 600px) {
+  .movement-panel {
+    padding: clamp(0.5rem, 1dvmin, 1rem);
+  }
+
+  .movement-grid {
+    height: min(85%, 50dvmin);
   }
 }
