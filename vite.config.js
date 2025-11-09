@@ -7,50 +7,20 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      // No generar manifest, usar el que está en public/site.webmanifest
+      injectManifest: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
+      },
+      // Desactivar la generación automática del manifest
+      manifest: false,
       includeAssets: [
         'favicon.svg',
         'favicon-96x96.png',
         'apple-touch-icon.png',
         'web-app-manifest-192x192.png',
         'web-app-manifest-512x512.png',
+        'site.webmanifest',
       ],
-      manifest: {
-        name: 'ESP32 Web Controller',
-        short_name: 'ESP32 Controller',
-        description: 'Control remoto para ESP32 vía WiFi y Bluetooth',
-        theme_color: '#1a1a1a',
-        background_color: '#1a1a1a',
-        display: 'fullscreen',
-        orientation: 'landscape',
-        start_url: '/',
-        scope: '/',
-        icons: [
-          {
-            src: '/web-app-manifest-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-            purpose: 'any',
-          },
-          {
-            src: '/web-app-manifest-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-            purpose: 'maskable',
-          },
-          {
-            src: '/web-app-manifest-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any',
-          },
-          {
-            src: '/web-app-manifest-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'maskable',
-          },
-        ],
-      },
       workbox: {
         // Cachear todos los assets (HTML, CSS, JS, imágenes)
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
