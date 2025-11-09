@@ -13,15 +13,18 @@
 Proyecto pequeño para controlar un robot ESP32-S3 desde un navegador en dos modos: BLE (Web Bluetooth) o WiFi (WebSocket). Frontend en React (Vite) y sketches Arduino para BLE (`arduino.ino`) y WiFi (`arduino_wifi.ino`).
 
 Stack mínimo
+
 - Frontend: React + Vite
 - Comunicación: Web Bluetooth (BLE) y WebSocket (WiFi)
 - ESP32: AsyncWebServer + AsyncTCP + ESP32Servo
 
 Instalación de librerías WiFi (necesarias para `arduino_wifi.ino`)
+
 - https://github.com/ESP32Async/ESPAsyncWebServer
 - https://github.com/ESP32Async/AsyncTCP
 
 Quickstart
+
 1. Instala dependencias web y lanza app:
 
 ```bash
@@ -30,13 +33,16 @@ pnpm dev
 ```
 
 2. Flashear ESP32:
+
 - Abrir `arduino_wifi.ino` o `arduino.ino` en Arduino IDE/PlatformIO
 - Instalar las librerías indicadas arriba (si usas WiFi)
 - Seleccionar placa ESP32-S3 y puerto, compilar y subir
 
 Cómo conectar
+
 - BLE: usar el modo BLE en la UI (Chrome/Edge). Dispositivo anunciado: `ADCA07`.
 - WiFi: conectar tu PC/teléfono a la red del ESP32 (o usar modo Station), luego conectar al WebSocket mostrado en el Serial (ej.: `ws://192.168.4.1/ws`).
 
 Soporte y contribuciones
+
 - Issues y PRs bienvenidos. Para cambios en el protocolo BLE/WiFi, actualiza también el sketch correspondiente.

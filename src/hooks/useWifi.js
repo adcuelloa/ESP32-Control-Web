@@ -35,26 +35,30 @@ export function useWifi() {
   const MIN_SPEED = 0;
 
   // 🔧 CONFIGURACIÓN: Detección automática de protocolo y URL
-  // Cuando usas el ESP32 en modo AP (Access Point), SIEMPRE usa ws://192.168.4.1/ws
-  // independientemente de si la PWA está instalada o desde dónde se descargó
+  // Cuando usas el ESP32 en modo AP (Access Point), usa ws://192.168.4.1/ws
+  // Cuando la app está instalada como PWA desde el servidor, usa wss://<dominio>/ws (nginx hace proxy)
   const getWebSocketURL = () => {
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const hostname = window.location.hostname;
+
     // Si estamos en desarrollo local (servidor de desarrollo)
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
       return 'ws://192.168.4.1/ws';
     }
 
     // Para PWA instalada o en producción:
-    // Siempre intenta conectar directamente al ESP32 en su IP de modo AP
-    // El usuario debe conectar su dispositivo a la red WiFi del ESP32 primero
-    return 'ws://192.168.4.1/ws';
+    // Si el hostname es el dominio del servidor (ej: arduino.andrescuello.com),
+    // usa el mismo dominio con wss:// - nginx hará proxy al ESP32
+    if (hostname === 'arduino.andrescuello.com') {
+      return `${protocol}//${hostname}/ws`;
+    }
 
-    // NOTA: Si tu ESP32 está en modo Station (conectado a tu router),
-    // cambia la línea anterior a la IP que le asigna tu router, ejemplo:
-    // return 'ws://192.168.1.100/ws';
+    // En cualquier otro caso (conectado directamente a la red del ESP32),
+    // intenta conectar directamente al ESP32 en su IP de modo AP
+    return 'ws://192.168.4.1/ws';
   };
 
   const WEBSOCKET_URL = getWebSocketURL();
-
   const ACK_TIMEOUT = 1000; // Aumentado a 1000ms para WiFi (vs 500ms en BLE)
   const MAX_RETRIES = 2;
   const RECONNECT_DELAY = 3000; // Descomentar si usas auto-reconexión

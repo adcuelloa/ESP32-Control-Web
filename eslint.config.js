@@ -8,6 +8,11 @@ import hooks from 'eslint-plugin-react-hooks';
  * @see https://eslint.org/docs/latest/use/configure/configuration-files-new
  */
 export default [
+  // 0. Ignorar archivos y carpetas
+  {
+    ignores: ['dist/**', 'node_modules/**', 'build/**'],
+  },
+
   // 1. Configuración base de JavaScript
   js.configs.recommended,
 
