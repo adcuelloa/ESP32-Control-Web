@@ -1,7 +1,7 @@
 /* ===== CONTENEDOR PRINCIPAL ===== */
 .app-container {
-  width: 100%;
-  height: 100%;
+  width: 100dvw;
+  height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,8 +61,8 @@
 
 /* ===== CONTROL REMOTO (16:9) ===== */
 .remote-control {
-  width: min(100vw - 2rem, calc((100vh - 2rem) * 16 / 9));
-  height: min(100vh - 2rem, calc((100vw - 2rem) * 9 / 16));
+  width: min(100%);
+  height: min(100%);
   background: linear-gradient(135deg, #222 0%, #2a2a2a 50%, #222 100%);
   border-radius: clamp(1rem, 2vw, 2rem);
   border: 3px solid rgba(255, 255, 255, 0.05);
@@ -235,35 +235,4 @@
   opacity: 0.3;
   filter: grayscale(100%) brightness(0.5);
   pointer-events: none;
-}
-
-/* ===== RESPONSIVE: MÓVILES VERTICALES ===== */
-@media (max-aspect-ratio: 1/1) {
-  .remote-control {
-    grid-template-rows: auto auto 1fr;
-  }
-
-  .remote-header {
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto;
-  }
-
-  .remote-header-right {
-    grid-column: 1 / -1;
-    justify-content: center;
-  }
-
-  .remote-body {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1.2fr 0.8fr;
-    gap: clamp(1rem, 2vw, 1.5rem);
-  }
-
-  .movement-section {
-    order: 1;
-  }
-
-  .gripper-section {
-    order: 2;
-  }
 }
