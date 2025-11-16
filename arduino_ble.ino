@@ -279,6 +279,10 @@ void loop()
         if (btSignal == 'W' || btSignal == 'X')
         {
           stop();
+          delay(200);
+          left();
+          delay(500);
+          stop();
           Serial.println("⚠️ OBSTÁCULO: Detenido (medición continua)");
         }
         else
